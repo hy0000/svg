@@ -20,3 +20,5 @@ abstract class UvmRoot extends UvmComponent
 
 abstract class UvmScoreboard extends UvmComponent
 
+abstract class UvmTransaction extends UvmObject
+
