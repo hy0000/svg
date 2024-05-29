@@ -1,12 +1,10 @@
 package core
 
-import scala.annotation.targetName
 import scala.math.BigDecimal
-import scala.runtime.Nothing$
 
 abstract class Svg
 
-class Class
+class Class extends Svg
 
 class Module extends Svg
 
@@ -15,13 +13,11 @@ class Interface extends Svg {
 }
 
 class Dut extends Svg{
-  def setTop(path: String): Unit = {
+  def setTop(path: String): Unit = ???
 
-  }
+  def connect(m: (String, Logic)*): Unit = ???
 
-  def connect(m: (String, Logic)*): Unit = {
-
-  }
+  def autoConnect(b: MultiData): Unit = ???
 }
 
 class ClockDomain {
@@ -30,16 +26,12 @@ class ClockDomain {
   var freq: Option[HertzNumber] = None
   
   def :=(that: ClockDomain) = that
+  
+  def runAt(freq: HertzNumber): Unit = ???
 }
 
 object ClockDomain {
   def apply() = new ClockDomain
-
-  def apply(freq: HertzNumber): ClockDomain = {
-    val cd = new ClockDomain
-    cd.freq = Some(freq)
-    cd
-  }
 }
 
 class Logic(bits: Int) {
@@ -48,7 +40,20 @@ class Logic(bits: Int) {
 }
 
 class HertzNumber(value: BigDecimal)
+class TimeNumber(value: BigDecimal)
 
 given Conversion[Int, HertzNumber] = HertzNumber(_)
 extension (value: Int)
   def MHz: HertzNumber = HertzNumber(value * BigDecimal(1e6))
+  
+given Conversion[Int, TimeNumber] = TimeNumber (_)
+  extension (value: Int)
+  def us: TimeNumber = TimeNumber(value * BigDecimal(1e6))
+
+trait MultiData
+
+trait Data
+
+class Bundle extends Data, MultiData
+
+class Coverage
